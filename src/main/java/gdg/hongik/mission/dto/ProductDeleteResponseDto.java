@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class productAddRequestDto {
+public class ProductDeleteResponseDto {
     private String name;
-    private  int count;
+    private int stock;
 }

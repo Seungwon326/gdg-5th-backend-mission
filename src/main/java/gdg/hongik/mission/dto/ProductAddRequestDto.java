@@ -5,9 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class productSearchResponseDto {
-    private Long id;
+public class ProductAddRequestDto {
     private String name;
-    private int price;
-    private int stock;
+    private int count;
 }

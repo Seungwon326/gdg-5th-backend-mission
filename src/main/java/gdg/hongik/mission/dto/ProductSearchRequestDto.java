@@ -3,6 +3,6 @@ package gdg.hongik.mission.dto;
 import lombok.Getter;
 
 @Getter
-public class productSearchRequestDto {
+public class ProductSearchRequestDto {
     private String name;
 }
