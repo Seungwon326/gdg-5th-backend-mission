@@ -12,4 +12,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{ // 기�
      * @return 조회된 상품 리스트
      */
     Optional<Product> findByName(String name); // 상품 이름으로 상품 검색
+
+    boolean existsByName(String name); // 똑같은 이름의 상품 있으면 True 반환
 }

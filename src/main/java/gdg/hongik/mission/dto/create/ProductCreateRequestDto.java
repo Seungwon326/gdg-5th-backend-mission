@@ -1,12 +1,11 @@
-package gdg.hongik.mission.dto;
+package gdg.hongik.mission.dto.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ProductSearchResponseDto {
-    private Long id;
+public class ProductCreateRequestDto {
     private String name;
     private int price;
     private int stock;

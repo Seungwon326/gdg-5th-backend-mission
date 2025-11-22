@@ -1,6 +1,10 @@
 package gdg.hongik.mission.controller;
 
-import gdg.hongik.mission.dto.*;
+import gdg.hongik.mission.dto.add.ProductAddRequestDto;
+import gdg.hongik.mission.dto.add.ProductAddResponseDto;
+import gdg.hongik.mission.dto.create.ProductCreateRequestDto;
+import gdg.hongik.mission.dto.delete.ProductDeleteResponseDto;
+import gdg.hongik.mission.dto.search.ProductSearchResponseDto;
 import gdg.hongik.mission.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +26,7 @@ public class ProductController {
      * @return 조회한 상품의 정보
      */
     @GetMapping("/products")
-    public List<ProductSearchResponseDto> searchProducts(@RequestParam String name) {
+    public ProductSearchResponseDto searchProducts(@RequestParam String name) {
         return productService.searchProducts(name);
     }
 
@@ -47,12 +51,12 @@ public class ProductController {
 
     /**
      * 입력으로 주어진 특정 상품을 삭제합니다.
-     * @param deleteDto 삭제 할 싱품의 이름
+     * @param name 조회할 상품의 이름
      * @return 현재 남아있는 물품의 정보(이름, 개수)
      */
     @DeleteMapping ("/products")
-    public ProductDeleteResponseDto deleteProducts(@RequestBody ProductDeleteRequestDto deleteDto) {
-        return productService.deleteProducts(deleteDto);
+    public List<ProductDeleteResponseDto> deleteProducts(@RequestParam String name) {
+        return productService.deleteProducts(name);
     }
 
 }

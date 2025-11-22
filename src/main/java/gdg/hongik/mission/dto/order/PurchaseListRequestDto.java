@@ -1,4 +1,4 @@
-package gdg.hongik.mission.dto;
+package gdg.hongik.mission.dto.order;
 
 import lombok.Getter;
 

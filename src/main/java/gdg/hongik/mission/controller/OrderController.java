@@ -1,7 +1,7 @@
 package gdg.hongik.mission.controller;
 
-import gdg.hongik.mission.dto.PurchaseListRequestDto;
-import gdg.hongik.mission.dto.PurchaseListResponseDto;
+import gdg.hongik.mission.dto.order.PurchaseListRequestDto;
+import gdg.hongik.mission.dto.order.PurchaseListResponseDto;
 import gdg.hongik.mission.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
