@@ -1,11 +1,11 @@
-package gdg.hongik.mission.dto;
+package gdg.hongik.mission.dto.delete;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PurchaseRequestDto {
+public class ProductDeleteResponseDto {
     private String name;
-    private int count;
+    private int stock;
 }
