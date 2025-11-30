@@ -8,9 +8,11 @@ import gdg.hongik.mission.dto.order.PurchaseRequestDto;
 import gdg.hongik.mission.dto.order.PurchaseResponseDto;
 import gdg.hongik.mission.repository.OrderRepository;
 import gdg.hongik.mission.repository.ProductRepository;
+import org.springframework.http.HttpStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +37,16 @@ public class OrderService {
         int totalPrice = 0;
         List<PurchaseResponseDto> purchaseList = new ArrayList<>(); // 구매 목록을 담을 리스트
         for (PurchaseRequestDto requestItem : requestDto.getItemsToPurchase()) {
-            Product product = productRepository.findByName(requestItem.getName()). // 구매 할 상품 찾기
-                    orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+            if (requestItem.getCount() <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "주문 수량은 1개 이상이어야 합니다.");
+            }
+            
+            Product product = productRepository.findByName(requestItem.getName())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 상품은 존재하지 않습니다."));
+
+            if (product.getStock() < requestItem.getCount()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "재고가 부족합니다: " + product.getName());
+            }
 
             product.removeStock(requestItem.getCount()); // 재고 감소
 

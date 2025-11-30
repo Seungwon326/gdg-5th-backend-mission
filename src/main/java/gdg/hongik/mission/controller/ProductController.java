@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * 상품을 관리하는 컨트롤러
  */
+@CrossOrigin("*")
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
@@ -26,12 +27,12 @@ public class ProductController {
      * @return 조회한 상품의 정보
      */
     @GetMapping("/products")
-    public ProductSearchResponseDto searchProducts(@RequestParam String name) {
+    public ProductSearchResponseDto searchProducts(@RequestParam(required = false) String name) {
         return productService.searchProducts(name);
     }
 
     /**
-     * 새로운 삼품을 등록합니다.
+     * 새로운 상품을 등록합니다.
      * @param createDto 상품 등록 시 필요한 정보들
      */
     @PostMapping("/products")
