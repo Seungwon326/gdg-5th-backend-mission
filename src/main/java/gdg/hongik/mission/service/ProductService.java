@@ -8,8 +8,10 @@ import gdg.hongik.mission.dto.delete.ProductDeleteResponseDto;
 import gdg.hongik.mission.dto.search.ProductSearchResponseDto;
 import gdg.hongik.mission.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,12 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    // 공통 메서드 -> 해당 이름의 상품이 없으면 404 에러
+    public Product getProductByName(String name) {
+        return productRepository.findByName(name)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 상품은 존재하지 않습니다."));
+    }
+
     /**
      * 사용자가 요청한 상품을 조회합니다.
      * @param name 조회 상품의 이름
@@ -30,8 +38,7 @@ public class ProductService {
      */
     @Transactional
     public ProductSearchResponseDto searchProducts(String name) {
-        Product product = productRepository.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("해당 상품은 존재하지 않습니다."));
+        Product product = getProductByName(name);
 
         return new ProductSearchResponseDto(
                 product.getId(),
@@ -48,7 +55,7 @@ public class ProductService {
     @Transactional
     public void createProducts(ProductCreateRequestDto createDto) {
         if (productRepository.existsByName(createDto.getName())) { // 똑같은 이름의 상품이 이미 존재하면(True) 조건문 실행
-            throw new IllegalArgumentException("이미 존재하는 상품입니다."); // 예외 처리
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 상품입니다."); // 예외 처리
         }
 
         Product product = new Product(
@@ -66,8 +73,7 @@ public class ProductService {
      */
     @Transactional
     public ProductAddResponseDto addStock(ProductAddRequestDto addDto) {
-        Product product = productRepository.findByName(addDto.getName()).
-                orElseThrow(() -> new IllegalArgumentException("재고를 추가 할 상품이 존재하지 않습니다.")); // 추가 할 상품 가져오기
+        Product product = getProductByName(addDto.getName()); // 추가 할 상품 가져오기(공통 메서드 사용)
 
         product.addStock(addDto.getCount()); // 상품 개수 추가
         return new ProductAddResponseDto(product.getName(), product.getStock()); // 추가한 상품 정보 출력(이름, 개수)
@@ -80,8 +86,7 @@ public class ProductService {
      */
     @Transactional
     public List<ProductDeleteResponseDto> deleteProducts(String name) {
-        Product product = productRepository.findByName(name).
-                orElseThrow(() -> new IllegalArgumentException("삭제할 상품이 존재하지 않습니다.")); // 삭제 할 상품 검색하기
+        Product product = getProductByName(name); // 삭제 할 상품 검색하기
 
         productRepository.delete(product); // 상품 삭제
         List<Product> allProducts = productRepository.findAll(); // 남아있는 모든 상품 조회

@@ -4,6 +4,7 @@ import gdg.hongik.mission.dto.order.PurchaseListRequestDto;
 import gdg.hongik.mission.dto.order.PurchaseListResponseDto;
 import gdg.hongik.mission.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 상품 구매 요청을 처리하는 컨트롤러
  */
+@CrossOrigin("*")
 @RestController // REST API를 처리하는 Controller임을 선언
 @RequiredArgsConstructor // final 키워드가 붙은 필드(orderService)를 인자로 받는 생성자를 자동으로 만들어줌(생성자 주입)
 public class OrderController {
